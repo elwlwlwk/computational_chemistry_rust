@@ -1,0 +1,8 @@
+[package]
+name = "computational_chemistry"
+version = "0.1.0"
+edition = "2021"
+
+[dependencies]
+phf = "0.11.2"
+lazy_static = "1.5.0"
