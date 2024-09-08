@@ -120,13 +120,57 @@ fn get_bonds(geom: &(Vec<String>, Vec<Vec<f64>>), bond_graph: &Vec<Vec<i64>>) ->
     bonds
 }
 
+fn print_geom(geom: &(Vec<String>, Vec<Vec<f64>>), comment: &String) {
+    let at_types = &geom.0;
+    let coords = &geom.1;
+    let n_atoms = at_types.len();
+    println!("{}\n{}", n_atoms, comment);
+    for i in 0..n_atoms {
+        print!("{: <2} ", at_types[i]);
+        for j in 0..3 {
+            print!("{: <8} ", coords[i][j]);
+        }
+        println!()
+    }
+    println!()
+}
+
+fn print_bond_graph(geom: &(Vec<String>, Vec<Vec<f64>>), bond_graph: &Vec<Vec<i64>>, comment: &String) {
+    let at_types = &geom.0;
+    println!("{}", comment);
+
+    for i in 0..at_types.len() {
+        print!("{} {: <2} -", i+1, at_types[i]);
+        for j in 0..bond_graph[i].len() {
+            print!(" {: <2}", bond_graph[i][j] + 1)
+        }
+        println!()
+    }
+    println!()
+}
+
+fn print_bonds(geom: &(Vec<String>, Vec<Vec<f64>>), bonds: &Vec<(i64, i64, f64)>) {
+    let at_types = &geom.0;
+    let n_bonds = bonds.len();
+    println!("{} bond(s) found (Angstrom)", n_bonds);
+    for q in 0..n_bonds {
+        let n1 = bonds[q].0;
+        let n2 = bonds[q].1;
+        let r12 = bonds[q].2;
+        let nstr = format!("{}-{}", n1 + 1, n2 + 1);
+        let tstr = format!("({}-{})", at_types[n1 as usize], at_types[n2 as usize]);
+        println!("{: <6} {: <6} {: <6}", nstr, tstr, r12);
+    }
+    println!()
+}
+
 pub fn bonds(xyz_file_name: &str) {
     let geom = get_geom(xyz_file_name);
     let bond_graph = get_bond_graph(&geom);
 
     let bonds = get_bonds(&geom, &bond_graph);
 
-    for bond in bonds {
-        println!("{} {} {}", bond.0, bond.1, bond.2);
-    }
+    print_geom(&geom, &"initial geometry".to_string());
+    print_bond_graph(&geom, &bond_graph, &"bond graph".to_string());
+    print_bonds(&geom, &bonds);
 }
