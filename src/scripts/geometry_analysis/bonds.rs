@@ -59,7 +59,7 @@ fn get_file_string_array(file_name: &str) -> Vec<Vec<String>> {
         .collect();
     file_string_array
 }
-fn get_geom(xyz_file_name: &str) -> (Vec<String>, Vec<Vec<f64>>) {
+pub fn get_geom(xyz_file_name: &str) -> (Vec<String>, Vec<Vec<f64>>) {
     let xyz_array = get_file_string_array(xyz_file_name);
     let n_atoms:u32  = xyz_array[0][0].parse().unwrap_or_else(|_| 0);
 
@@ -76,7 +76,7 @@ fn get_geom(xyz_file_name: &str) -> (Vec<String>, Vec<Vec<f64>>) {
     geom
 }
 
-fn get_r12(coords1: &Vec<f64>, coords2: &Vec<f64>) -> f64 {
+pub fn get_r12(coords1: &Vec<f64>, coords2: &Vec<f64>) -> f64 {
     let mut r2 = 0.0;
     for p in 0..3 {
         r2 += (coords1[p] - coords2[p]).powi(2);
@@ -84,7 +84,7 @@ fn get_r12(coords1: &Vec<f64>, coords2: &Vec<f64>) -> f64 {
     r2.sqrt()
 }
 
-fn get_bond_graph(geom: &(Vec<String>, Vec<Vec<f64>>)) -> Vec<Vec<i64>> {
+pub fn get_bond_graph(geom: &(Vec<String>, Vec<Vec<f64>>)) -> Vec<Vec<i64>> {
     let at_types = &geom.0;
     let coords = &geom.1;
     let mut bond_graph: Vec<Vec<i64>> = vec![vec![]; at_types.len()];
@@ -104,7 +104,7 @@ fn get_bond_graph(geom: &(Vec<String>, Vec<Vec<f64>>)) -> Vec<Vec<i64>> {
     bond_graph
 }
 
-fn get_bonds(geom: &(Vec<String>, Vec<Vec<f64>>), bond_graph: &Vec<Vec<i64>>) -> Vec<(i64, i64, f64)> {
+pub fn get_bonds(geom: &(Vec<String>, Vec<Vec<f64>>), bond_graph: &Vec<Vec<i64>>) -> Vec<(i64, i64, f64)> {
     let at_types = &geom.0;
     let coords = &geom.1;
     let mut bonds : Vec<(i64, i64, f64)> = vec![];
@@ -120,7 +120,7 @@ fn get_bonds(geom: &(Vec<String>, Vec<Vec<f64>>), bond_graph: &Vec<Vec<i64>>) ->
     bonds
 }
 
-fn print_geom(geom: &(Vec<String>, Vec<Vec<f64>>), comment: &String) {
+pub fn print_geom(geom: &(Vec<String>, Vec<Vec<f64>>), comment: &String) {
     let at_types = &geom.0;
     let coords = &geom.1;
     let n_atoms = at_types.len();
@@ -149,7 +149,7 @@ fn print_bond_graph(geom: &(Vec<String>, Vec<Vec<f64>>), bond_graph: &Vec<Vec<i6
     println!()
 }
 
-fn print_bonds(geom: &(Vec<String>, Vec<Vec<f64>>), bonds: &Vec<(i64, i64, f64)>) {
+pub fn print_bonds(geom: &(Vec<String>, Vec<Vec<f64>>), bonds: &Vec<(i64, i64, f64)>) {
     let at_types = &geom.0;
     let n_bonds = bonds.len();
     println!("{} bond(s) found (Angstrom)", n_bonds);

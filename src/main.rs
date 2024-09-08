@@ -1,7 +1,8 @@
 mod scripts;
 
 use scripts::{geometry_analysis::bonds::bonds};
+use crate::scripts::geometry_analysis::angles::angles;
 
 fn main() {
-    bonds("src/geom/xyz/ethane.xyz")
+    angles("src/geom/xyz/ethane.xyz")
 }
