@@ -1,12 +1,12 @@
 use crate::scripts::geometry_analysis::bonds::{get_bond_graph, get_bonds, get_geom, get_r12, print_bonds, print_geom};
 
-fn get_u12(coords1: &Vec<f64>, coords2: &&Vec<f64>) -> Vec<f64> {
+pub fn get_u12(coords1: &Vec<f64>, coords2: &&Vec<f64>) -> Vec<f64> {
     let r12 = get_r12(&coords1, &coords2);
-    let u12 = coords1.iter().zip(coords2.iter()).map(|(x, y)| (x - y) / r12).collect();
+    let u12 = coords2.iter().zip(coords1.iter()).map(|(x, y)| (x - y) / r12).collect();
     u12
 }
 
-fn get_udp(uvec1: &Vec<f64>, uvec2: &Vec<f64>) -> f64 {
+pub fn get_udp(uvec1: &Vec<f64>, uvec2: &Vec<f64>) -> f64 {
     let udp = uvec1.iter().zip(uvec2.iter()).map(|(x, y)| x * y).sum();
     udp
 }
@@ -35,7 +35,6 @@ pub fn get_angles(geom: &(Vec<String>, Vec<Vec<f64>>), bond_graph: &Vec<Vec<i64>
             }
         }
     }
-
     angles
 }
 
